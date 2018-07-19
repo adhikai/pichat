@@ -1,0 +1,9 @@
+[
+  {
+    "first_name": "Jenith",
+    "last_name": "Lalseta",
+    "email": "jenith@uwindsor.ca",
+    "password": "12345",
+    "isAdmin": true
+  }
+]

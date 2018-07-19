@@ -1,0 +1,18 @@
+[
+  {
+    "first_name": "Siddhu",
+    "last_name": "Pajji",
+    "email": "siddhu@uwindsor.ca",
+    "password": "12345",
+    "isPieUser": true,
+    "serial_number": "PI SERIAL NO",
+    "isActive": true
+  },
+  {
+    "first_name": "XYZ",
+    "last_name": "Pi",
+    "email": "xyz@uwindsor.ca",
+    "password": "12345",
+    "serial_number": "Some good serial number"
+  }
+]
