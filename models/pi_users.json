@@ -1,18 +1,1 @@
-[
-  {
-    "first_name": "Siddhu",
-    "last_name": "Pajji",
-    "email": "siddhu@uwindsor.ca",
-    "password": "12345",
-    "isPieUser": true,
-    "serial_number": "PI SERIAL NO",
-    "isActive": true
-  },
-  {
-    "first_name": "XYZ",
-    "last_name": "Pi",
-    "email": "xyz@uwindsor.ca",
-    "password": "12345",
-    "serial_number": "Some good serial number"
-  }
-]
+[{"first_name": "XYZ", "last_name": "Pi", "email": "xyz@uwindsor.ca", "password": "12345", "serial_number": "Some good serial number"}, {"email": "gautam@uwindsor.ca", "first_name": "gautam", "isPieUser": true, "last_name": "manaktala", "password": "12345", "serial_number": "Some Serial Number"}, {"email": "siddhu@uwindsor.ca", "first_name": "Siddhu", "isPieUser": true, "last_name": "Pajji", "password": "12345", "serial_number": "PI SERIAL NO"}]
