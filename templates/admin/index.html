@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Admin List</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" type="image/png" href={{ url_for('static', filename='signup/images/icons/favicon.ico') }}>
+		<link rel="stylesheet" type="text/css" href={{ url_for('static', filename='signup/vendor/bootstrap/css/bootstrap.min.css') }}>
+		<link rel="stylesheet" type="text/css" href={{ url_for('static', filename='signup/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}>
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="#">PI Chat</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active">
+						<a href="/logout?redirect_url=/admin/login" class="nav-link"><i class="fa fa-sign-out"></i> Logout</a>
+					</li>
+				</ul>
+		</div>
+	</nav>
+
+		<div class="container" style="margin-top:40px">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-3">
+							{% if is_active %}
+								<form action="/admin" method="get">
+									<button class="btn btn-info" type="submit"> <i class="fa fa-eye"></i> Show All Users</button>
+								</form>
+							{% else %}
+								<form action="/admin" method="get">
+									<input type="hidden" name="filter" value="active"/>
+									<button class="btn btn-info" type="submit"> <i class="fa fa-eye"></i> Show Only Active Users</button>
+							</form>
+							{% endif %}
+						</div>
+						<div class="col-md-4">
+							<form action="/admin/pi" method="get">
+								<button class="btn btn-warning"><i class="fa fa-user"></i> Register PI User</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="margin-top: 16px">
+				<div class="col-md-12">
+					<table class="table table-bordered table-responsive table-striped">
+						<thead>
+							<tr>
+								<th>First Name</th>
+								<th>Last Name</th>
+								<th>Email</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+						{% for user in client_users %}
+						 	<tr>
+								<td>
+										{{ user.first_name }}
+										<span class="badge badge-success">Client User</span>
+								</td>
+								<td>
+										{{ user.last_name }}
+								</td>
+								<td>
+										{{ user.email }}
+								</td>
+								<td>
+										{% if user.isActive %}
+											<p class="badge badge-success">Active</p>
+									 	{% else %}
+										  <p class="badge badge-info"> Offline</p>
+										{% endif %}
+								</td>
+							</tr>
+							{% endfor %}
+							{% for user in pie_users %}
+							 	<tr>
+									<td>
+											{{ user.first_name }}
+											<span class="badge badge-warning">Pi User</span>
+									</td>
+									<td>
+											{{ user.last_name }}
+									</td>
+									<td>
+											{{ user.email }}
+									</td>
+									<td>
+											{% if user.isActive %}
+												<p class="badge badge-success">Active</p>
+										 	{% else %}
+											  <p class="badge badge-info"> Offline</p>
+											{% endif %}
+									</td>
+								</tr>
+								{% endfor %}
+								{% for user in admin_users %}
+								 	<tr>
+										<td>
+												{{ user.first_name }}
+												<span class="badge badge-info">Admin</span>
+										</td>
+										<td>
+												{{ user.last_name }}
+										</td>
+										<td>
+												{{ user.email }}
+										</td>
+										<td>
+												{% if user.isActive %}
+													<p class="badge badge-success">Active</p>
+											 	{% else %}
+												  <p class="badge badge-info"> Offline</p>
+												{% endif %}
+										</td>
+									</tr>
+									{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+
+		<script src={{ url_for('static', filename='signup/vendor/jquery/jquery-3.2.1.min.js') }}></script>
+		<script src={{ url_for('static', filename='signup/vendor/bootstrap/js/popper.js') }}></script>
+		<script src={{ url_for('static', filename='signup/vendor/bootstrap/js/bootstrap.min.js') }}></script>
+</body>
+</html>
