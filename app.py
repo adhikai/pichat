@@ -313,4 +313,6 @@ def handle_incomming_message(packet):
                 if ''+email in user:
                     sid = user[email]
         packet['from'] = session['auth_user']['email']
+        print(packet)
+        user_helper.store_messages(packet)
         emit('receive_message', packet, room=sid)
