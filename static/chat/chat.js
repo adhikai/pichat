@@ -62,6 +62,25 @@ io.on('receive_message', function(packet) {
     }
 })
 
+// $("#chat_message").on('change', function(e) {
+//   if (e.target.value) {
+//     $("#send").prop('disabled', false)
+//   } else {
+//     $("#send").prop('disabled', false)
+//   }
+// });
+
+$('#chat_message').keyup(function () {
+    if ($(this).val() == '') {
+        //Check to see if there is any text entered
+        // If there is no text within the input ten disable the button
+        $('#send').prop('disabled', true);
+    } else {
+        //If there is text in the input, then enable the button
+        $('#send').prop('disabled', false);
+    }
+});
+
 $("#send").on('click', function() {
     $message_box = $("#chat_message")
     var message = $message_box.val();
@@ -69,12 +88,6 @@ $("#send").on('click', function() {
     $("#messages").append("<h5 class='clear-fix' style='text-align: right'>"+message+"</h5>")
     $message_box.val('')
     io.emit('send_message', { to: current_user['email'], message: message })
-});
+    console.log(message);
 
-$("#chat_message").on('change', function(e) {
-  if (e.target.value) {
-    $("#send").prop('disabled', false)
-  } else {
-    $("#send").prop('disabled', false)
-  }
-})
+});

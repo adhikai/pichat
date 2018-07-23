@@ -15,6 +15,9 @@ def load_admin_users():
     with open('models/admin_users.json') as file:
         return json.load(file)
 
+def load_messages():
+    with open('models/messages.json') as file:
+        return json.load(file)
 
 def write_client_users(data):
     client_users = load_client_users()
@@ -86,3 +89,11 @@ def make_user_active(auth_user, type):
 
 def make_user_offline(auth_user, type):
     return set_status(False, type, auth_user)
+
+
+def store_messages(data):
+    dummy=load_messages()
+    dummy.append(data)
+    with open('models/messages.json','w') as file:
+        json.dump(dummy,file)
+    return True
