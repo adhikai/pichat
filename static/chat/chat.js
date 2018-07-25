@@ -1,6 +1,7 @@
 var active_users = [];
 var current_user = {};
-var io = io.connect('http://localhost:5000');
+var host = window.location
+var io = io.connect(host.protocol+"//"+host.hostname+":5000");
 
 io.on('connect', function() {
   io.emit('user_connected')
