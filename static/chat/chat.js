@@ -31,7 +31,12 @@ io.on('get_users', function(users) {
       var chatBtn = document.createElement('button')
       chatBtn.addEventListener('click', function() {
           current_user = user
+          var initialCount = $("[data-id='"+user['email']+"'").text()
+          if (initialCount) {
+            io.emit('get_previous_messages', current_user)
+          }
           $("#name").text(user['first_name']+" "+user['last_name'])
+          $("[data-id='"+user['email']+"'").remove()
           $("#messages").empty()
       })
       chatBtn.classList.add('btn','btn-primary')
@@ -62,14 +67,6 @@ io.on('receive_message', function(packet) {
     }
 })
 
-// $("#chat_message").on('change', function(e) {
-//   if (e.target.value) {
-//     $("#send").prop('disabled', false)
-//   } else {
-//     $("#send").prop('disabled', false)
-//   }
-// });
-
 $('#chat_message').keyup(function () {
     if ($(this).val() == '') {
         //Check to see if there is any text entered
@@ -88,6 +85,5 @@ $("#send").on('click', function() {
     $("#messages").append("<h5 class='clear-fix' style='text-align: right'>"+message+"</h5>")
     $message_box.val('')
     io.emit('send_message', { to: current_user['email'], message: message })
-    console.log(message);
-
 });
+

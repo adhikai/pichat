@@ -267,6 +267,18 @@ def handle_connection():
         user_helper.make_user_active(auth_user, 'client_users')
     sync_users()
 
+
+@socketio.on('check_serial_number')
+def check_serial_number(serial_number):
+    print(serial_number)
+    if 'serial_number' in session['auth_user']:
+        if serial_number == session['auth_user']['serial_number']:
+            pass
+        else:
+            session['auth_user'] = {}
+            return redirect('/login', 302)
+
+
 @socketio.on('disconnect')
 def handle_disconnect():
     auth_user = session['auth_user']
@@ -282,6 +294,7 @@ def handle_disconnect():
             universal.namespaces['client_users'].remove(request.sid)
         user_helper.make_user_offline(auth_user, 'client_users')
     sync_users()
+
 
 @socketio.on('user_connected', '')
 def handle_user_connected():
@@ -299,8 +312,9 @@ def handle_user_connected():
                 users.append(user)
         emit('get_users', users, room=request.sid)
 
+
 @socketio.on('send_message')
-def handle_incomming_message(packet):
+def handle_incoming_message(packet):
     sid = {}
     if 'to' in packet:
         email = packet['to']
@@ -313,6 +327,25 @@ def handle_incomming_message(packet):
                 if ''+email in user:
                     sid = user[email]
         packet['from'] = session['auth_user']['email']
-        print(packet)
         user_helper.store_messages(packet)
         emit('receive_message', packet, room=sid)
+
+
+@socketio.on('get_previous_messages')
+def handle_get_previous_messages(user):
+    toEmail = user['email']
+    auth_user = session['auth_user']
+    sid = {}
+    messages = user_helper.read_previous_messages(toEmail)
+
+    if 'isPieUser' in auth_user:
+        for namespace_user in universal.namespaces['pi_users']:
+            if '' + auth_user['email'] in namespace_user:
+                sid = namespace_user[auth_user['email']]
+    else:
+        for namespace_user in universal.namespaces['client_users']:
+            if '' + auth_user['email'] in namespace_user:
+                sid = namespace_user[auth_user['email']]
+    for message in messages:
+        emit('receive_message', message, room=sid)
+        user_helper.delete_message(message)
