@@ -1,4 +1,5 @@
 import json
+from flask import jsonify
 
 
 def load_client_users():
@@ -15,9 +16,14 @@ def load_admin_users():
     with open('models/admin_users.json') as file:
         return json.load(file)
 
+
 def load_messages():
-    with open('models/messages.json') as file:
-        return json.load(file)
+    try:
+        with open('models/messages.json') as file:
+            return json.load(file)
+    except TypeError:
+        return []
+
 
 def write_client_users(data):
     client_users = load_client_users()
@@ -41,6 +47,7 @@ def write_admin_users(data):
         admin_users.append(data)
         json.dump(admin_users, file)
         return True
+
 
 def set_status(is_active, type, auth_user):
     if type == 'client_users':
@@ -87,6 +94,7 @@ def set_status(is_active, type, auth_user):
 def make_user_active(auth_user, type):
     return set_status(True, type, auth_user)
 
+
 def make_user_offline(auth_user, type):
     return set_status(False, type, auth_user)
 
@@ -94,6 +102,28 @@ def make_user_offline(auth_user, type):
 def store_messages(data):
     dummy=load_messages()
     dummy.append(data)
-    with open('models/messages.json','w') as file:
-        json.dump(dummy,file)
+    with open('models/messages.json', 'w') as file:
+        json.dump(dummy, file)
+    return True
+
+
+def read_previous_messages(fromEmail):
+    data = load_messages()
+    messages = []
+    for message in data:
+        if message['from'] == fromEmail:
+            messages.append(message)
+    return messages
+
+
+def delete_message(message):
+    data = load_messages()
+    data[:] = [x for x in data if x['message'] != message['message'] and x['to'] != message['to'] and x['from'] != message['from']]
+    if not data:
+        file = open('models/messages.json', 'w')
+        file.write('[]')
+        file.close()
+    else:
+        with open('models/messages.json', 'w') as file:
+            json.dump(data, file)
     return True
