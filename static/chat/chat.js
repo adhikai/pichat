@@ -1,7 +1,7 @@
 var active_users = [];
 var current_user = {};
 var host = window.location
-var io = io.connect(host.protocol+"//"+host.hostname+":5000");
+var io = io.connect(host.protocol+"//"+host.hostname);
 
 io.on('connect', function() {
   io.emit('user_connected')
@@ -87,4 +87,3 @@ $("#send").on('click', function() {
     $message_box.val('')
     io.emit('send_message', { to: current_user['email'], message: message })
 });
-
