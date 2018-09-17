@@ -3,12 +3,14 @@
     "first_name": "Ronit",
     "last_name": "Adhikari",
     "email": "adhikari@uwindsor.ca",
-    "password": "12345"
+    "password": "12345",
+    "isActive": true
   },
   {
     "first_name": "Hardik",
     "last_name": "Patel",
     "email": "hardik@uwindsor.ca",
-    "password": "12345"
+    "password": "12345",
+    "isActive": true
   }
 ]
